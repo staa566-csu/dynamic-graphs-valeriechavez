@@ -5,7 +5,8 @@ I wish to explore secondary student responses to the questions:
 - Overall, how do you feel about your life? 
 - How happy have you been feeling this week?
 
-And compare difference across race/ethnicity and gender
+And compare difference across race/ethnicity and gender.
+
 Responses were on a 5 point likert scale, which consisted of 5 emojis ranging from very sad to very happy for the first question. And responses for the second question ranged from never happy (1) to happy all the time (5).
 
 
