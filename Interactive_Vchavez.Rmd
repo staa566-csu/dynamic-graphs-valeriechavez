@@ -3,8 +3,8 @@ title: "Interactive"
 author: "Valerie Chavez"
 date: "2022-09-27"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 ---
 title: "Interactive"
@@ -16,11 +16,7 @@ I wish to explore secondary student responses to the questions:
 - How happy have you been feeling this week?
 
 And compare difference across race/ethnicity and gender
-Responses were on a 5 point likert scale, which consisted of 5 emojis ranging from very sad to very happy for the first question. And responses for the second question rangd from never happy (1) to happy all the time (5).
-
-Think about your life lately. How happy have you been feeling this week?
-m_em_feel_happy pos
-
+Responses were on a 5 point likert scale, which consisted of 5 emojis ranging from very sad to very happy for the first question. Responses for the second question rangrd from never happy (1) to happy all the time (5).
 
 **Data is provided by and property of Youth Truth Student Survey, a national nonprofit, and may only be shared in aggregate for the confidentiality of students and clients.**
 
@@ -96,6 +92,8 @@ Secondary<-Secondary %>%
 
 ```
 
+Creating a scatter bubble plot. I wish to explore the linear relationship between these two questions, as well as the difference in response distribution by gender. Note that x and y data are discrete likert scales, but I've added dodge/jitter so the points do not overlap
+
 ```{r}
 #Manually add our YT colors for our pallette
 YTPalette<-c("#245971", "#f99c25","#b0c5cc")
@@ -110,12 +108,13 @@ EMH <-ggplot(Secondary, aes(x=em_life, y=em_feel_happy, group= gender, color=fac
   scale_size(range=c(2,12))+
   xlab(str_wrap("Overall, how do you feel about your life?")) + 
   ylab(str_wrap("How happy have you been feeling this week?")) +
-  labs(title="Secondary Student Mental Health", colour= "Gender", shape= "Proportion of students by gender", caption = "Source:YouthTruth:youthtruthsurvey.org")+
+  labs(title="Secondary Student Mental Health", subtitle= "proportion of each gender that selected each likert response combination", colour= "Gender", shape= "Proportion of students by gender", caption = "Source:YouthTruth Student Survey")+
   coord_equal()+
   scale_fill_manual(values= YTPalette,labels = c("Boy/Man", "Girl/Woman","Non-Binary"),aesthetics = "colour")+
   guides(colour = guide_legend(override.aes = list(size=5)), size = guide_legend("Prop", override.aes=list(col="#0e3051")))+
   theme_bw()+
   theme(plot.title = element_text(family = "Helvetica", colour = "#0e3051", face = "bold", size = (15)),
+        plot.subtitle = element_text(family = "Helvetica", colour = "#0e3051", face = "italic", size = (8)),
         legend.title = element_text(colour = "#245971", face = "bold", family = "Helvetica", , size = (10)),
         legend.text = element_text(face = "italic", colour = "#0e3051", family = "Helvetica"),
         axis.title = element_text (family = "Helvetica", size = (12), colour = "#245971"),
@@ -132,8 +131,19 @@ EMH
 
 ```{r}
 
-EMHplotly<-ggplotly(EMH, width = 512, height = 512, tooltip= c("group", "prop"))%>% 
-  layout(showlegend = FALSE)%>%
+#adjusting height and width to keep the graph a square
+#adding hover for only gender and proportion (I spent hours trying to make them neater, but alas, the way I calculated prop does not make it straight foward)
+#removing legend as points are labeled
+#removing zoom as we want to keep it a square and zooming in and out are not helpful
+#adding info from caption and subtitle back into plot
+
+EMHplotly<-ggplotly(EMH, width = 450, height = 450, tooltip= c("group", "prop"))%>% 
+  layout(showlegend = FALSE, title = list(text = paste0('Secondary Student Mental Health',
+                                    '<br>',
+                                    '<sup>',
+                                    'Likert response combination by gender; Source:YouthTruth',
+                                    '</sup>')))%>%
+  config(modeBarButtonsToRemove = c("zoomIn2d", "zoomOut2d"))%>%
   highlight(on = "plotly_hover")
 
   
