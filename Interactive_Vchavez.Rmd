@@ -92,7 +92,7 @@ Secondary<-Secondary %>%
 
 ```
 
-Creating a scatter bubble plot. I wish to explore the linear relationship between these two questions, as well as the difference in response distribution by gender. Note that x and y data are discrete likert scales, but I've added dodge/jitter so the points do not overlap
+Creating a scatter bubble plot. I wish to explore the linear relationship between these two questions, as well as the difference in response distribution by gender. Note that x and y data are discrete likert scales, but I've added dodge/jitter so the points do not overlap and are easier to see. The size of the bubbles represents the proportion by gender that selected that cross-section of responses. 
 
 ```{r}
 #Manually add our YT colors for our pallette
